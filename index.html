@@ -137,6 +137,48 @@ html, body { background-color: #000; }
 			screen.orientation.lock("landscape").catch(function () {});
 		}
 	}, { once: true });
+	// iPhones mute web sound with the ring/silent switch unless the page says
+	// it plays media, as a music app does.
+	try {
+		if (navigator.audioSession) { navigator.audioSession.type = 'playback'; }
+	} catch (e) {}
+	// Phones keep a page's sound paused until it is woken during a tap, and
+	// pause it again after switching apps. Keep every sound context the game
+	// makes and wake them all on each tap, with a silent blip the first time.
+	var contexts = window.spaceFruitSound = [];
+	var Base = window.AudioContext || window.webkitAudioContext;
+	if (Base) {
+		var Kept = function (options) {
+			var context = options === undefined ? new Base() : new Base(options);
+			contexts.push(context);
+			return context;
+		};
+		Kept.prototype = Base.prototype;
+		window.AudioContext = Kept;
+		if (window.webkitAudioContext) { window.webkitAudioContext = Kept; }
+	}
+	function wake() {
+		contexts.forEach(function (context) {
+			if (context.state !== 'running' && context.state !== 'closed') {
+				context.resume().catch(function () {});
+			}
+			if (!context.spaceFruitWoken) {
+				context.spaceFruitWoken = true;
+				try {
+					var blip = context.createBufferSource();
+					blip.buffer = context.createBuffer(1, 1, 22050);
+					blip.connect(context.destination);
+					blip.start(0);
+				} catch (e) {}
+			}
+		});
+	}
+	['touchstart', 'touchend', 'pointerdown', 'pointerup', 'click', 'keydown'].forEach(function (type) {
+		window.addEventListener(type, wake, true);
+	});
+	document.addEventListener('visibilitychange', function () {
+		if (!document.hidden) { wake(); }
+	});
 })();
 </script>
 	</head>
