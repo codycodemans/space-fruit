@@ -102,7 +102,6 @@ html, body { background-color: #000; }
 #turn { display: none; position: fixed; inset: 0; z-index: 1000; background: #05060d; color: #fff;
 	font: 18px sans-serif; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; }
 #turn p { margin: 0; }
-#turn .zh { color: #aab; font-size: 16px; }
 #turn .phone { width: 34px; height: 58px; border: 3px solid #ffcc59; border-radius: 6px; margin-bottom: 14px;
 	animation: turn-phone 2s ease-in-out infinite; }
 @keyframes turn-phone { 0%, 25% { transform: rotate(0deg); } 60%, 100% { transform: rotate(-90deg); } }
@@ -115,7 +114,7 @@ html, body { background-color: #000; }
 	document.addEventListener("DOMContentLoaded", function () {
 		var turn = document.createElement("div");
 		turn.id = "turn";
-		turn.innerHTML = '<div class="phone"></div><p>Turn your phone sideways to play</p><p class="zh">请将手机横过来</p>';
+		turn.innerHTML = '<div class="phone"></div><p>Turn your phone sideways to play</p>';
 		document.body.appendChild(turn);
 	});
 	// After a turn the browser can leave the page scrolled for a moment, and
@@ -208,7 +207,7 @@ html, body { background-color: #000; }
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":12645204,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":12645396,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
